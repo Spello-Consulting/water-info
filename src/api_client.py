@@ -46,8 +46,23 @@ class WaterMonitorClient:
             response.raise_for_status()
             data = response.json()
         except (httpx.HTTPError, ValueError) as exc:
+            # Discard the connection pool on any failure. During an outage the
+            # pool can be left holding half-open/stale keep-alive connections;
+            # reusing those makes every later attempt fail even once the API is
+            # back, so a fresh client is created for the next poll. This is how
+            # the app re-establishes the connection after the API has been down
+            # for longer than RequestTimeoutSeconds.
+            await self._reset_client()
             raise WaterMonitorError(f"Failed to fetch water-monitor API at {url}: {exc}") from exc
         return self._validate(data, f"API {url}")
+
+    async def _reset_client(self) -> None:
+        """Replace the HTTP client so the next request opens a fresh connection."""
+        old, self._client = self._client, httpx.AsyncClient()
+        try:
+            await old.aclose()
+        except Exception:  # noqa: BLE001 - best-effort cleanup of the dead client
+            pass
 
     def _fetch_from_file(self, path: str) -> WaterMonitorPayload:
         try:

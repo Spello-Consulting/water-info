@@ -21,6 +21,19 @@ def _templates(request: Request):
     return request.app.state.templates
 
 
+def _current_reading(card, payload, unit: str) -> str | None:
+    """Formatted latest reading for the chart title, e.g. ``26.9°C`` (or None)."""
+    if payload is None:
+        return None
+    sensor_obj = payload.tank_by_name(card.sensor) if card.is_water else payload.probe_by_name(card.sensor)
+    if sensor_obj is None:
+        return None
+    value = sensor_obj.percent_full if card.is_water else sensor_obj.temperature_c
+    if value is None:
+        return None
+    return f"{round(value):d}{unit}" if card.is_water else f"{value:.1f}{unit}"
+
+
 @router.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     app = request.app
@@ -62,6 +75,9 @@ async def chart(request: Request, sensor: str):
     unit = "%" if card.is_water else "°C"
     svg = render_chart_svg(points, lo, hi, unit, card.type, days)
 
+    # Current reading shown in the chart title (e.g. "External Air Temp — 26.9°C").
+    current_reading = _current_reading(card, app.state.app_state.payload, unit)
+
     next_card = cards[(index + 1) % len(cards)]
     return _templates(request).TemplateResponse(
         request,
@@ -70,6 +86,7 @@ async def chart(request: Request, sensor: str):
             "card": card,
             "svg": svg,
             "days": days,
+            "current_reading": current_reading,
             "next_sensor": next_card.sensor,
             "next_name": next_card.display_name,
             "has_data": bool(points),
