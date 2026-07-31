@@ -1,0 +1,17 @@
+{# One card. Shared markup for water and temperature; JS updates fields by name. #}
+<a class="card card-{{ card.type }}" href="/chart/{{ card.sensor }}"
+   data-sensor="{{ card.sensor }}">
+  <div class="card-top">
+    <span class="card-name">{{ card.display_name }}</span>
+    <span class="card-max" data-field="max">{{ card.max_str }}</span>
+  </div>
+  <div class="card-value {{ card.value_class }}" data-field="value">
+    <span class="value-int" data-field="value_int">{{ card.value_int }}</span
+    ><span class="value-dec" data-field="value_dec">{{ card.value_dec }}</span
+    ><span class="value-unit">{{ card.unit }}</span>
+  </div>
+  <div class="card-bottom">
+    <span class="card-status status-{{ card.status }}" data-field="status">{{ card.status_label }}</span>
+    <span class="card-min" data-field="min">{{ card.min_str }}</span>
+  </div>
+</a>

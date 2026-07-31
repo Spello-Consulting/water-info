@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{{ card.display_name }} — Water Display{% endblock %}
+{% block content %}
+<div class="chart-page">
+  <div class="chart-header">
+    <h2>{{ card.display_name }}</h2>
+    <p class="chart-sub">Last {{ days }} days
+      {% if card.is_water %}(percentage full){% else %}(temperature °C){% endif %}</p>
+  </div>
+
+  <div class="chart-wrap">
+    {{ svg | safe }}
+  </div>
+
+  <div class="chart-nav">
+    <a class="btn" href="/">← Home</a>
+    <a class="btn" href="/diagnostics/{{ card.sensor }}">Diagnostics</a>
+    <a class="btn" href="/chart/{{ next_sensor }}">Next: {{ next_name }} →</a>
+  </div>
+</div>
+{% endblock %}

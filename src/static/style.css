@@ -1,0 +1,146 @@
+/* Water Display — styles. Palette follows LightingControl / PowerController. */
+
+:root {
+  --bg: #f0f2f5;
+  --text: #1a1a2e;
+  --header: #16213e;
+  --header-text: #e0e0e0;
+  --card-bg: #fff;
+  --muted: #777;
+  --line: #e8eaed;
+  --ok: #1a1a2e;      /* status OK = black */
+  --warning: #e8890c; /* orange */
+  --error: #d32f2f;   /* red */
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 0 0 3rem;
+}
+
+header {
+  background: var(--header);
+  color: var(--header-text);
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+header h1 { margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: 0.03em; }
+header h1 a { color: inherit; text-decoration: none; }
+.header-right { display: flex; align-items: center; gap: 1rem; }
+#clock { font-variant-numeric: tabular-nums; color: #b6c6de; letter-spacing: 0.05em; }
+.header-link { color: var(--header-text); text-decoration: none; font-size: 0.9rem;
+  border: 1px solid #35406a; border-radius: 4px; padding: 0.25rem 0.6rem; }
+.header-link:hover { background: #22305a; }
+
+#page-footer {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(255,255,255,0.92); border-top: 1px solid var(--line);
+  padding: 0.4rem 1rem; font-size: 0.78rem; color: var(--muted);
+}
+.conn-online { color: #00a843; font-weight: 600; }
+.conn-offline { color: var(--warning); font-weight: 600; }
+
+/* ── Card grid: 2-up phone portrait, 3-up on wider screens ─────────────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  padding: 0.75rem;
+}
+@media (min-width: 768px) {
+  .card-grid { grid-template-columns: repeat(3, 1fr); gap: 1rem; padding: 1rem; }
+  main { max-width: 1100px; margin: 0 auto; }
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+  padding: 0.7rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 8.5rem;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.15s, transform 0.1s;
+}
+.card:hover { box-shadow: 0 3px 10px rgba(0,0,0,0.16); transform: translateY(-1px); }
+
+.card-top, .card-bottom { display: flex; justify-content: space-between; align-items: baseline; }
+.card-name { font-weight: 600; font-size: 0.86rem; color: var(--header); }
+.card-max, .card-min { font-size: 0.78rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+.card-value {
+  text-align: center;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0.4rem 0;
+  font-variant-numeric: tabular-nums;
+}
+.value-int { font-size: 2.9rem; }
+.value-dec { font-size: 1.6rem; }
+.value-unit { font-size: 1.2rem; margin-left: 0.1rem; color: var(--muted); }
+
+/* Water value colour rules */
+.value-ok { color: var(--text); }
+.value-warning { color: var(--warning); }
+.value-critical { color: var(--error); }
+
+/* Status text colours */
+.card-status { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.02em; }
+.status-ok { color: var(--ok); }
+.status-warning { color: var(--warning); }
+.status-error { color: var(--error); }
+
+/* ── Chart page ────────────────────────────────────────────────────────── */
+.chart-page, .system-page { max-width: 900px; margin: 0 auto; padding: 1rem; }
+.chart-header h2 { margin: 0.25rem 0; color: var(--header); }
+.chart-sub { margin: 0 0 0.75rem; color: var(--muted); font-size: 0.9rem; }
+.chart-wrap { background: var(--card-bg); border-radius: 10px; padding: 0.75rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.10); overflow-x: auto; }
+.chart { width: 100%; height: auto; display: block; }
+.chart-nav { display: flex; justify-content: space-between; margin-top: 1rem; }
+
+.btn {
+  display: inline-block; text-decoration: none;
+  background: var(--header); color: #fff;
+  border-radius: 6px; padding: 0.5rem 0.9rem; font-size: 0.9rem;
+}
+.btn:hover { background: #22305a; }
+
+/* SVG chart element styling */
+.chart-grid { stroke: var(--line); stroke-width: 1; }
+.chart-axis { fill: var(--muted); font-size: 12px; }
+.chart-line { fill: none; stroke: #2867c4; stroke-width: 2; }
+.chart-ref { stroke-width: 1; stroke-dasharray: 5 4; }
+.chart-ref-high { stroke: var(--error); }
+.chart-ref-low { stroke: #2867c4; }
+.chart-ref-label { font-size: 11px; fill: var(--muted); }
+.chart-empty { fill: var(--muted); font-size: 16px; }
+
+/* ── System page ───────────────────────────────────────────────────────── */
+.card-header-bar { display: flex; justify-content: space-between; align-items: center; }
+.card-header-bar h2 { color: var(--header); }
+.system-card { background: var(--card-bg); border-radius: 10px; margin-top: 0.75rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.10); overflow: hidden; }
+.system-row { display: flex; justify-content: space-between; padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--line); font-size: 0.9rem; }
+.system-row:last-child { border-bottom: none; }
+.system-key { color: var(--muted); text-transform: capitalize; }
+.system-val { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* Diagnostics per-sensor header row */
+.diag-head { background: rgba(0,0,0,0.03); }
+.diag-name { color: var(--header); font-weight: 600; text-transform: none; }
+.diag-raw { color: var(--muted); font-weight: 400; font-size: 0.8rem; }
+/* Field labels are already sentence-cased server/client-side; keep units like
+   "mm" lowercase instead of title-casing them to "Mm". */
+.diag-field-key { text-transform: none; }

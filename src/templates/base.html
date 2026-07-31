@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Water Display{% endblock %}</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%A7%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <h1><a href="/">Water Display</a></h1>
+    <div class="header-right">
+      <span id="clock"></span>
+      <a class="header-link" href="/system">System</a>
+    </div>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer id="page-footer">
+    <span id="conn-status" class="conn-offline">connecting…</span>
+    &nbsp;|&nbsp; Last update: <span id="last-refresh">{{ last_valid_response or '—' }}</span>
+  </footer>
+
+  <script src="/static/app.js"></script>
+  {% block scripts %}{% endblock %}
+  <script>
+    function updateClock() {
+      document.getElementById('clock').textContent = new Date().toTimeString().slice(0, 8);
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}System — Water Display{% endblock %}
+{% block content %}
+<div class="system-page">
+  <div class="card-header-bar">
+    <h2>System</h2>
+    <a class="btn" href="/">← Home</a>
+  </div>
+
+  <div class="system-card">
+    <div class="system-row">
+      <span class="system-key">API status</span>
+      <span class="system-val {{ 'status-ok' if api_ok else 'status-error' }}">
+        {{ 'Online' if api_ok else 'Offline' }}
+      </span>
+    </div>
+    <div class="system-row">
+      <span class="system-key">Last valid response</span>
+      <span class="system-val">{{ last_valid_response or '—' }}</span>
+    </div>
+
+    {% if device %}
+      {% for key, value in device.items() %}
+        {% if key != 'ts' %}
+        <div class="system-row">
+          <span class="system-key">{{ key.replace('_', ' ') }}</span>
+          <span class="system-val">{{ value if value is not none else '—' }}</span>
+        </div>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <div class="system-row"><span class="system-val">No device data yet.</span></div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

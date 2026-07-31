@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}{{ display_name }} diagnostics — Water Display{% endblock %}
+{% block content %}
+<div class="system-page">
+  <div class="card-header-bar">
+    <h2>Diagnostics — {{ display_name }}</h2>
+    <a class="btn" href="/">← Home</a>
+  </div>
+
+  <div class="system-card">
+    <div class="system-row">
+      <span class="system-key">API status</span>
+      <span class="system-val {{ 'status-ok' if api_ok else 'status-error' }}" data-field="diag_api">
+        {{ 'Online' if api_ok else 'Offline' }}
+      </span>
+    </div>
+    <div class="system-row">
+      <span class="system-key">Last valid response</span>
+      <span class="system-val" data-field="diag_last_valid">{{ last_valid_response or '—' }}</span>
+    </div>
+  </div>
+
+  <div id="diagnostics-body" data-sensor="{{ sensor }}">
+    {% if sensors %}
+      {% for sensor in sensors %}
+      <div class="system-card">
+        <div class="system-row diag-head">
+          <span class="system-key diag-name">{{ sensor.display_name }}</span>
+          <span class="system-val diag-raw">{{ sensor.sensor }}</span>
+        </div>
+        {% for key, value in sensor.fields.items() %}
+        <div class="system-row">
+          <span class="system-key diag-field-key">{{ key.replace('_', ' ')|capitalize }}</span>
+          <span class="system-val">{{ value if value is not none else '—' }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="system-card">
+        <div class="system-row"><span class="system-val">No sensor data yet.</span></div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

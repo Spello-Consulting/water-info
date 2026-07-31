@@ -1,0 +1,26 @@
+[Unit]
+Description=Water Display web app
+After=network.target
+
+# Limit restart attempts (3 times in 60 seconds)
+StartLimitIntervalSec=60
+StartLimitBurst=3
+
+
+[Service]
+ExecStart=/home/pi/scripts/water-display/scripts/launch.sh
+WorkingDirectory=/home/pi/scripts/water-display
+StandardOutput=journal
+StandardError=journal
+User=pi
+Environment=PYTHONUNBUFFERED=1
+Environment=PATH=/home/pi/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# Logging and restart behavior
+# Only restart on non-zero exit code
+Restart=on-failure
+# Wait 10 seconds before restarting
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
