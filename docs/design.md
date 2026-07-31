@@ -1,6 +1,6 @@
-# **Water Display Application Design**
+# **Water Information Display Application Design**
 
-Water Display is a web application that is a consumer to the water-monitor app that we recently implemented. The goal of the water-info app is to display water percentage full and temperature information via a web interface to a user, and also to send notifications when the water percentage in a tank gets too low.
+Water Information Display is a web application that is a consumer to the water-monitor app that we recently implemented. The goal of the water-info app is to display water percentage full and temperature information via a web interface to a user, and also to send notifications when the water percentage in a tank gets too low.
 
 ## Application architecture 
 

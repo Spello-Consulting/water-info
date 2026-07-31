@@ -1,4 +1,4 @@
-# Water Display
+# Water Info Display
 
 A web application that consumes the water-monitor REST API and displays tank
 percentage-full and temperature as a live, responsive card grid, with historic

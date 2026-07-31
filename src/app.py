@@ -73,7 +73,7 @@ def create_app(app_config: AppConfig, logger) -> FastAPI:
             db.close()
             logger.log_message("Water-display shut down cleanly.", "summary")
 
-    app = FastAPI(title="Water Display", lifespan=lifespan)
+    app = FastAPI(title="Water Information Display", lifespan=lifespan)
     app.mount("/static", NoCacheStaticFiles(directory=_SRC_DIR / "static"), name="static")
     app.state.templates = Jinja2Templates(directory=_SRC_DIR / "templates")
 

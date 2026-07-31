@@ -40,7 +40,7 @@ if [ -z "$TO" ]; then
   exit 1
 fi
 
-MSG="${2:-Water Display test message — if you received this, Twilio SMS is working.}"
+MSG="${2:-Water Information Display test message — if you received this, Twilio SMS is working.}"
 
 FROM="${TWILIO_FROM_NUMBER:-}"
 ACCOUNT_SID="${TWILIO_ACCOUNT_SID:-}"

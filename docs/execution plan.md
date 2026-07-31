@@ -1,4 +1,4 @@
-# Water Display — Build Plan
+# Water Information Display — Build Plan
 
 ## Context
 

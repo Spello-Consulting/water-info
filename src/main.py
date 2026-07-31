@@ -17,7 +17,7 @@ from config import AppConfig, build_config_manager, build_logger
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Water Display web application")
+    parser = argparse.ArgumentParser(description="Water Information Display web application")
     parser.add_argument("--config", default="config.yaml", help="Path to the YAML config file (default: config.yaml)")
     # --homedir is consumed by scripts/launch.sh (which chdirs before launch);
     # accepted here so the arg doesn't cause an error.

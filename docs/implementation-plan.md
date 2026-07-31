@@ -1,4 +1,4 @@
-# Water Display — Implementation Plan
+# Water Information Display — Implementation Plan
 
 > Companion to [design.md](design.md). This is the pick-up-and-go plan: what to
 > build, in what order, and the decisions already made. Read `design.md` first for

@@ -1,4 +1,4 @@
-// Water Display — live card updates over WebSocket.
+// Water Information Display — live card updates over WebSocket.
 (function () {
   "use strict";
 

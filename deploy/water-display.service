@@ -1,5 +1,5 @@
 [Unit]
-Description=Water Display web app
+Description=Water Information Display web app
 After=network.target
 
 # Limit restart attempts (3 times in 60 seconds)
