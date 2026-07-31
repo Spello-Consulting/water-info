@@ -3,7 +3,7 @@
 {% block content %}
 <div class="chart-page">
   <div class="chart-header">
-    <h2>{{ card.display_name }}</h2>
+    <h2>{{ card.display_name }}{% if current_reading %} — {{ current_reading }}{% endif %}</h2>
     <p class="chart-sub">Last {{ days }} days
       {% if card.is_water %}(percentage full){% else %}(temperature °C){% endif %}</p>
   </div>
@@ -18,4 +18,7 @@
     <a class="btn" href="/chart/{{ next_sensor }}">Next: {{ next_name }} →</a>
   </div>
 </div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/chart.js"></script>
 {% endblock %}

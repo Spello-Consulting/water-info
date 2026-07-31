@@ -7,6 +7,7 @@ lines mark the high/low over the charting period, per design.md.
 from __future__ import annotations
 
 import datetime as dt
+import json
 from html import escape
 
 from sc_foundation.sc_date_helper import DateHelper
@@ -92,6 +93,30 @@ def render_chart_svg(
     # Data line
     d = " ".join(f"{'M' if i == 0 else 'L'}{sx(ts):.1f} {sy(v):.1f}" for i, (ts, v) in enumerate(points))
     parts.append(f'<path class="chart-line" d="{d}"/>')
+
+    # Hover interaction elements (positioned client-side by chart.js on mouse
+    # move over the plot). The pixel coordinates + labels for every point are
+    # embedded so the script can snap to the nearest reading without a request.
+    hover_points = [
+        {
+            "x": round(sx(ts), 1),
+            "y": round(sy(v), 1),
+            "t": DateHelper.format(ts, "%d %b %Y %H:%M"),
+            "v": (f"{round(v):d}" if card_type == "water" else f"{v:.1f}") + unit,
+        }
+        for ts, v in points
+    ]
+    parts.append(f'<g class="chart-hover" data-points="{escape(json.dumps(hover_points))}">')
+    parts.append(f'<line class="chart-cursor" y1="{_MT}" y2="{_MT + _PLOT_H}" style="display:none"/>')
+    parts.append('<circle class="chart-marker" r="4" style="display:none"/>')
+    parts.append('<g class="chart-tooltip" style="display:none">')
+    parts.append('<rect class="chart-tooltip-bg" height="40" rx="4"/>')
+    parts.append('<text class="chart-tooltip-time" x="8" y="17"></text>')
+    parts.append('<text class="chart-tooltip-val" x="8" y="33"></text>')
+    parts.append("</g>")
+    # Transparent top layer that captures the pointer over the plot area.
+    parts.append(f'<rect class="chart-hit" x="{_ML}" y="{_MT}" width="{_PLOT_W}" height="{_PLOT_H}" fill="transparent"/>')
+    parts.append("</g>")
 
     parts.append("</svg>")
     return "".join(parts)
