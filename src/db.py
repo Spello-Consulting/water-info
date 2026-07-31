@@ -1,4 +1,4 @@
-"""SQLite persistence for water-display.
+"""SQLite persistence for water-info.
 
 Single-file SQLite database holding timestamped tank + temperature readings and
 a single latest-device row. SQLite ships with Python (no native wheels to

@@ -1,4 +1,4 @@
-"""Configuration loading, validation and typed access for water-display.
+"""Configuration loading, validation and typed access for water-info.
 
 Wraps :class:`SCConfigManager` (YAML load + validation + hot-reload) and
 :class:`SCLogger` (logging + email). The Cerberus validation schema defined

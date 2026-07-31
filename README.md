@@ -199,16 +199,16 @@ uv run pytest
 
 Production runs under systemd. Ensure `.env` is present in the working directory, then:
 
-### 1. Deploy the water-display.service file
+### 1. Deploy the water-info.service file
 
 ```bash
-sudo cp deploy/water-display.service /etc/systemd/system/
+sudo cp deploy/water-info.service /etc/systemd/system/
 ```
 
 Edit the deployed file and validate paths, user name, etc.
 
 ```bash
-sudo nano /etc/systemd/system/water-display.service
+sudo nano /etc/systemd/system/water-info.service
 ```
 
 ## 2. Enable and start the service
@@ -216,12 +216,12 @@ sudo nano /etc/systemd/system/water-display.service
 ```bash
 sudo systemctl daemon-reexec       # re-executes systemd in case of changes
 sudo systemctl daemon-reload       # reload service files
-sudo systemctl enable water-display   # enable on boot
-sudo systemctl start water-display    # start now
+sudo systemctl enable water-info   # enable on boot
+sudo systemctl start water-info    # start now
 ```
 
 ## 3. View logs
 
 ```bash
-journalctl -u water-display -f
+journalctl -u water-info -f
 ```

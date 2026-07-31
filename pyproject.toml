@@ -1,10 +1,10 @@
 [project]
-name = "water-display"
+name = "water-info"
 version = "1.1.1"
 description = "Display water tank capacity and temperature"
 readme = "README.md"
 requires-python = ">=3.13"
-service_name="water-display"
+service_name="water-info"
 launch_path="src/main.py"
 dependencies = [
     "fastapi>=0.140.13",
@@ -39,7 +39,7 @@ package-dir = {"" = "src"}
 where = ["src"]
 
 [dev.env.sync]
-remote="~/Library/CloudStorage/Dropbox/Development/dev_setup/app_config/water-display"
+remote="~/Library/CloudStorage/Dropbox/Development/dev_setup/app_config/water-info"
 patterns = [
     ".env",
     ".vscode/*",

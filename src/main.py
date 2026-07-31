@@ -1,4 +1,4 @@
-"""water-display entry point.
+"""water-info entry point.
 
 Parses ``--config`` / ``--homedir``, loads and validates configuration, wires
 logging, and runs the FastAPI app under uvicorn with a single worker (only the
@@ -33,14 +33,14 @@ def main() -> None:
     try:
         config_mgr = build_config_manager(args.config)
     except RuntimeError as exc:
-        print(f"[water-display] Configuration error: {exc}", file=sys.stderr)
+        print(f"[water-info] Configuration error: {exc}", file=sys.stderr)
         sys.exit(1)
 
     logger = build_logger(config_mgr)
     app_config = AppConfig(config_mgr)
     app = create_app(app_config, logger)
 
-    logger.log_message(f"water-display starting on {app_config.host}:{app_config.port}", "summary")
+    logger.log_message(f"water-info starting on {app_config.host}:{app_config.port}", "summary")
     # Single worker only — keeps the poller the sole SQLite writer.
     uvicorn.run(app, host=app_config.host, port=app_config.port, workers=1, log_level="info")
 

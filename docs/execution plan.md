@@ -2,7 +2,7 @@
 
 ## Context
 
-`water-display` is a FastAPI/uvicorn web app that consumes the existing
+`water-info` is a FastAPI/uvicorn web app that consumes the existing
 water-monitor REST API, shows tank percentage-full and temperature as a
 responsive card grid, serves historic charts and a system page, persists
 readings to DuckDB, and sends email/SMS alerts when a tank runs low. The
@@ -39,7 +39,7 @@ water-monitor endpoint.
 - Keep entry point at `src/main.py` (tooling reads `launch_path`).
 - Secrets only in `.env` (currently `SMTP_USERNAME`, `SMTP_PASSWORD`; Twilio
   keys to be added). Never in `config.yaml`.
-- `scripts/launch.sh` and `deploy/water-display.service` are done — no changes.
+- `scripts/launch.sh` and `deploy/water-info.service` are done — no changes.
 - House style: fetch and mirror LightingControl / PowerController (theme) and
   DisplayBoard (card grid) from github.com/Spello-Consulting (all reachable).
 - SC-foundation APIs: confirm against

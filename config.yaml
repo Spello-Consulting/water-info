@@ -1,4 +1,4 @@
-# Configuration file for the water-display application.
+# Configuration file for the water-info application.
 #
 # Non-sensitive settings only. Secrets (SMTP + Twilio credentials) live in .env
 # and are loaded into the environment by scripts/launch.sh. See README.md.
@@ -15,7 +15,7 @@ Email:
   SendEmailsTo: nick@elseyworld.com
   SMTPServer: smtp.gmail.com
   SMTPPort: 587
-  SubjectPrefix: "[Dev water-display]: "
+  SubjectPrefix: "[Dev water-info]: "
 
 # Water-monitor REST API to poll.
 WaterMonitor:

@@ -8,8 +8,8 @@ StartLimitBurst=3
 
 
 [Service]
-ExecStart=/home/pi/scripts/water-display/scripts/launch.sh
-WorkingDirectory=/home/pi/scripts/water-display
+ExecStart=/home/pi/scripts/water-info/scripts/launch.sh
+WorkingDirectory=/home/pi/scripts/water-info
 StandardOutput=journal
 StandardError=journal
 User=pi

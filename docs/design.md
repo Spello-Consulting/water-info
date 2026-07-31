@@ -1,6 +1,6 @@
 # **Water Display Application Design**
 
-Water Display is a web application that is a consumer to the water-monitor app that we recently implemented. The goal of the water-display app is to display water percentage full and temperature information via a web interface to a user, and also to send notifications when the water percentage in a tank gets too low.
+Water Display is a web application that is a consumer to the water-monitor app that we recently implemented. The goal of the water-info app is to display water percentage full and temperature information via a web interface to a user, and also to send notifications when the water percentage in a tank gets too low.
 
 ## Application architecture 
 
@@ -10,7 +10,7 @@ The app will be uvicorn / FastAPI application that serves  Jinja2 rendered pag
 
 ### Local repo
 
-The local working directory is `~/dev/water-display` 
+The local working directory is `~/dev/water-info` 
 
 ### Package management 
 
@@ -229,4 +229,4 @@ SMS alerts will be sent via Twilio. For this, implement send\_sms() in a separa
 
 ## Deployment 
 
-In production, the app will be launched by systemd. See `deploy/water-display.service` for a template service file.
+In production, the app will be launched by systemd. See `deploy/water-info.service` for a template service file.

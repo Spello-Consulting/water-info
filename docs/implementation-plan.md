@@ -11,13 +11,13 @@ Template scaffolding only — no app logic yet.
 - `pyproject.toml` — Python **3.13+**, `uv`-managed. Only real dep so far is
   `sc-foundation-services>=3.2.0`. Dev deps: `pytest`, `pytest-mock`,
   `pytest-dotenv`, `pre-commit`. `launch_path="src/main.py"` and
-  `service_name="water-display"` are read by tooling — keep the entry point at
+  `service_name="water-info"` are read by tooling — keep the entry point at
   `src/main.py`.
 - `src/main.py` — stub (`print("Hello…")`). This is the entry point to flesh out.
 - `scripts/launch.sh` — robust launcher (already done): finds home dir, sources
   `.env`, runs `uv sync`, then `uv run <launch_path>`. Handles SIGTERM cleanly for
   systemd. **No changes needed.**
-- `deploy/water-display.service` — systemd unit (already corrected). Runs the
+- `deploy/water-info.service` — systemd unit (already corrected). Runs the
   launch script as user `nick`.
 - `.gitignore` — already ignores `.env`, `logs/`, `*.json/*.csv/*.log` in `src/`,
   `.venv/`, etc.
@@ -130,8 +130,8 @@ Keep `main.py` at that path (tooling reads `launch_path`).
 12. Tests (`pytest` + `pytest-mock`, `pytest-dotenv`): payload parsing, card
     mapping edge cases (missing/extra sensors), 24h min/max queries, alert
     hysteresis state machine, prune. Mock httpx + Twilio.
-13. Deploy: confirm `deploy/water-display.service` paths/user on the Ubuntu box,
-    `.env` present, `systemctl enable --now water-display`.
+13. Deploy: confirm `deploy/water-info.service` paths/user on the Ubuntu box,
+    `.env` present, `systemctl enable --now water-info`.
 
 ## Open items to confirm during build
 - Config key names/shape for the schema (nothing locked in yet — design lists the
