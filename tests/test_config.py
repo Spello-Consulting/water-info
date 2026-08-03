@@ -62,6 +62,27 @@ def test_missing_required_section_rejected(tmp_path):
         build_config_manager(_write(tmp_path / "c.yaml", bad))
 
 
+def test_sms_to_numbers_from_config(tmp_path, monkeypatch):
+    monkeypatch.delenv("TWILIO_SEND_SMS_TO", raising=False)
+    data = {**VALID_CONFIG, "SMS": {"SendSMSTo": ["+15005550006"]}}
+    cfg = AppConfig(build_config_manager(_write(tmp_path / "c.yaml", data)))
+    assert cfg.sms_to_numbers == ["+15005550006"]
+
+
+def test_sms_to_numbers_env_overrides_config(tmp_path, monkeypatch):
+    data = {**VALID_CONFIG, "SMS": {"SendSMSTo": ["+15005550006"]}}
+    cfg = AppConfig(build_config_manager(_write(tmp_path / "c.yaml", data)))
+    monkeypatch.setenv("TWILIO_SEND_SMS_TO", " +393311194199 , +14155550100 ")
+    assert cfg.sms_to_numbers == ["+393311194199", "+14155550100"]
+
+
+def test_sms_to_numbers_empty_env_falls_back_to_config(tmp_path, monkeypatch):
+    data = {**VALID_CONFIG, "SMS": {"SendSMSTo": ["+15005550006"]}}
+    cfg = AppConfig(build_config_manager(_write(tmp_path / "c.yaml", data)))
+    monkeypatch.setenv("TWILIO_SEND_SMS_TO", "  ,  ")
+    assert cfg.sms_to_numbers == ["+15005550006"]
+
+
 def test_hot_reload_picks_up_changes(tmp_path):
     path = tmp_path / "c.yaml"
     mgr = build_config_manager(_write(path, VALID_CONFIG))

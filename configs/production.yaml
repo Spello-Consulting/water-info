@@ -15,7 +15,7 @@ Email:
   SendEmailsTo: nick@elseyworld.com
   SMTPServer: smtp.gmail.com
   SMTPPort: 587
-  SubjectPrefix: "[Dev water-info]: "
+  SubjectPrefix: "[Spello water-info]: "
 
 # Water-monitor REST API to poll.
 WaterMonitor:
@@ -47,7 +47,6 @@ Server:
 SMS:
   EnableSMS: True
   SendSMSTo:
-    - "+393311194199"
 
 # Card layout. Order here is the order shown on the home page. Sensors present
 # in the API payload but not listed here are excluded; entries whose Sensor does

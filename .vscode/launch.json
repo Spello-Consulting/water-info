@@ -10,6 +10,7 @@
             "postDebugTask": "clean-env",
             "program": "src/main.py",
             "console": "integratedTerminal",
+            "envFile": "${workspaceFolder}/.env",
             "args": ["--config", "configs/development.yaml"]
         }
     ]

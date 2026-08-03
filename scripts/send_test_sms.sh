@@ -5,7 +5,9 @@
 #   ./scripts/send_test_sms.sh [recipient] [message]
 #
 #   recipient  E.164 number, e.g. +393311194199.
-#              Defaults to the first SendSMSTo entry in config.yaml.
+#              Defaults to the first number in the TWILIO_SEND_SMS_TO env var
+#              (comma-separated list, from .env), else the first SendSMSTo entry
+#              in config.yaml.
 #   message    Message body. Defaults to a canned test message.
 #
 # Uses API-key auth (TWILIO_API_KEY_SID/SECRET + TWILIO_ACCOUNT_SID) when present,
@@ -15,22 +17,37 @@ set -eu
 
 ScriptDir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 HomeDir="$(cd "$ScriptDir/.." && pwd)"
-EnvFile="$HomeDir/.env"
+EnvFile="$HomeDir/.env.target"
 ConfigFile="$HomeDir/config.yaml"
+EnvTemp="$HomeDir/.env"
 
 if [ ! -f "$EnvFile" ]; then
   echo "Error: $EnvFile not found." >&2
   exit 1
 fi
 
+# Cleanup function
+cleanup() {
+  rm -f "$EnvTemp"
+}
+trap cleanup EXIT
+
+# Materialize .env.target into .env using op
+op inject -i "$HomeDir/.env.dev.template" -o "$HomeDir/.env" -f
+
 # Load .env into the environment.
 set -a
 # shellcheck disable=SC1090
-. "$EnvFile"
+. "$EnvTemp"
 set +a
 
-# Recipient: CLI arg, else first +E.164 number under SendSMSTo in config.yaml.
+# Recipient: CLI arg, else first number in TWILIO_SEND_SMS_TO (comma-separated,
+# takes precedence — same as config.py), else first +E.164 number under
+# SendSMSTo in config.yaml.
 TO="${1:-}"
+if [ -z "$TO" ] && [ -n "${TWILIO_SEND_SMS_TO:-}" ]; then
+  TO="$(printf '%s' "$TWILIO_SEND_SMS_TO" | cut -d, -f1 | tr -d '[:space:]')"
+fi
 if [ -z "$TO" ] && [ -f "$ConfigFile" ]; then
   TO="$(grep -A10 'SendSMSTo:' "$ConfigFile" | grep -oE '\+[0-9]+' | head -1 || true)"
 fi

@@ -10,6 +10,7 @@ Config values are read live via :class:`AppConfig` (never cached) so that
 """
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
 
 from sc_foundation.sc_config_mgr import SCConfigManager
@@ -176,6 +177,18 @@ class AppConfig:
 
     @property
     def sms_to_numbers(self) -> list[str]:
+        """Recipient numbers for SMS alerts.
+
+        The ``TWILIO_SEND_SMS_TO`` environment variable takes precedence over the
+        ``SMS.SendSMSTo`` config key. Multiple numbers may be given in the env var
+        as a comma-separated list. When the env var is unset (or empty after
+        parsing), the config value is used.
+        """
+        env_value = os.environ.get("TWILIO_SEND_SMS_TO")
+        if env_value is not None:
+            numbers = [n.strip() for n in env_value.split(",") if n.strip()]
+            if numbers:
+                return numbers
         return list(self._cfg.get("SMS", "SendSMSTo", default=[]) or [])
 
     # --- Cards -------------------------------------------------------------
