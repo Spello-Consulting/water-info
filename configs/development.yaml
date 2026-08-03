@@ -1,0 +1,97 @@
+# Configuration file for the water-info application.
+#
+# Non-sensitive settings only. Secrets (SMTP + Twilio credentials) live in .env
+# and are loaded into the environment by scripts/launch.sh. See README.md.
+
+Files:
+  LogfileName: logs/logfile.log
+  LogfileMaxLines: 1000
+  LogProcessID: False
+  LogfileVerbosity: debug
+  ConsoleVerbosity: debug
+
+Email:
+  EnableEmail: False
+  SendEmailsTo: nick@elseyworld.com
+  SMTPServer: smtp.gmail.com
+  SMTPPort: 587
+  SubjectPrefix: "[Dev water-info]: "
+
+# Water-monitor REST API to poll.
+WaterMonitor:
+  URL: "http://192.168.86.144/"
+  PollIntervalSeconds: 60
+  RequestTimeoutSeconds: 30
+  # Simulation mode: when True, read payloads from SimulationFile (a JSON file in
+  # the water-monitor payload format) instead of polling URL. Edit the file to
+  # test card colours and low-water alerts; changes are picked up each poll.
+  SimulationMode: False
+  SimulationFile: "data/payload_sample.json"
+
+# Local SQLite history store.
+Database:
+  Path: "data/water_display.sqlite"
+  RetentionDays: 90
+
+# Historic chart pages.
+Charting:
+  Days: 30
+
+# Web server bind address (LAN, no auth).
+Server:
+  Host: "0.0.0.0"
+  Port: 8084
+
+# SMS alerts via Twilio. Credentials (SID/token/from-number) come from .env.
+# If those env vars are absent at runtime, SMS is skipped with a warning.
+SMS:
+  EnableSMS: True
+  SendSMSTo:
+    - "+393311194199"
+
+# Card layout. Order here is the order shown on the home page. Sensors present
+# in the API payload but not listed here are excluded; entries whose Sensor does
+# not match any API sensor render a card with null values.
+#
+# Water cards use:
+#   WarningPercent / CriticalPercent   -> display text colour (orange / red)
+#   EmailAlertPercent / EmailRecoveryPercent -> email alert hysteresis
+#   SMSAlertPercent / SMSRecoveryPercent     -> SMS alert hysteresis
+# These three pairs are independent of one another.
+Cards:
+  - Sensor: "External Tank Water Level"
+    Type: water
+    DisplayName: "External Water %"
+    WarningPercent: 70
+    CriticalPercent: 30
+    EmailAlertPercent: 40
+    EmailRecoveryPercent: 50
+    SMSAlertPercent: 25
+    SMSRecoveryPercent: 30
+
+  - Sensor: "Internal Tank Water Level"
+    Type: water
+    DisplayName: "Internal Water %"
+    WarningPercent: 70
+    CriticalPercent: 30
+    EmailAlertPercent: 40
+    EmailRecoveryPercent: 50
+    SMSAlertPercent: 20
+    SMSRecoveryPercent: 30
+
+  - Sensor: "External Air Temperature"
+    Type: temperature
+    DisplayName: "External Air Temp"
+
+  - Sensor: "Internal Air Temperature"
+    Type: temperature
+    DisplayName: "Internal Air Temp"
+
+  - Sensor: "External Tank Water Temperature"
+    Type: temperature
+    DisplayName: "External Water Temp"
+
+  - Sensor: "Internal Tank Water Temperature"
+    Type: temperature
+    DisplayName: "Internal Water Temp"
+

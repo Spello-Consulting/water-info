@@ -21,7 +21,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = [
+all = [
     "pre-commit>=4.6.1",
     "pytest>=9.1.1",
     "pytest-dotenv>=0.5.2",
@@ -38,9 +38,3 @@ package-dir = {"" = "src"}
 [tool.setuptools.packages.find]
 where = ["src"]
 
-[dev.env.sync]
-remote="~/Library/CloudStorage/Dropbox/Development/dev_setup/app_config/water-info"
-patterns = [
-    ".env",
-    ".vscode/*",
-]

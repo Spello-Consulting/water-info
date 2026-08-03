@@ -1,0 +1,16 @@
+{
+    "version": "1.0.0",
+    "configurations": [
+
+        {
+            "name": "Python Debugger: Main",
+            "type": "debugpy",
+            "request": "launch",
+            "preLaunchTask": "build-env",
+            "postDebugTask": "clean-env",
+            "program": "src/main.py",
+            "console": "integratedTerminal",
+            "args": ["--config", "configs/development.yaml"]
+        }
+    ]
+}

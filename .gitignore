@@ -4,7 +4,6 @@ __pycache__/
 .python-version
 .ruff_cache/
 .venv/
-.vscode/
 *.egg
 *.egg-info
 *.py[oc]
@@ -20,18 +19,7 @@ wheels/
 .cache_ggshield
 
 # App
-/*.txt
-/*.json
-/*.csv
 logs/
-archive/
 data/*
 !data/payload_sample.json
-*.duckdb
-*.duckdb.wal
-*.sqlite
-*.sqlite-wal
-*.sqlite-shm
-src/*.json
-src/*.csv
-src/*.log
+.env.target

@@ -1,0 +1,6 @@
+{
+  // Only auto-detect Git repos within this workspace's subfolders, not from the
+  // parent folders of open editors. Stops the sibling ~/dev/water-monitor repo
+  // from appearing in the Source Control panel when a file from it is open.
+  "git.autoRepositoryDetection": "subFolders"
+}

@@ -13,7 +13,7 @@ WorkingDirectory=/home/pi/scripts/water-info
 StandardOutput=journal
 StandardError=journal
 User=pi
-Environment=PYTHONUNBUFFERED=1
+EnvironmentFile=/home/pi/.config/op/service-account-token
 Environment=PATH=/home/pi/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # Logging and restart behavior

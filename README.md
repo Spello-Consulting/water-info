@@ -117,7 +117,7 @@ Enable SMS and list recipients in `config.yaml`:
 ```yaml
 SMS:
   EnableSMS: True
-  SendSMSTo:
+  SendSMSTo:  # Or set the SMS_SENDER_ID environment parameter
     - "+393311194199"
 ```
 
