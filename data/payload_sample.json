@@ -16,7 +16,7 @@
       "level_mm": 1596,
       "distance_mm": 109,
       "age_seconds": 7,
-      "percent_full": 20,
+      "percent_full": 80,
       "raw_hex": "ff 00 6d 6c",
       "status": "ok",
       "name": "External Tank Water Level",

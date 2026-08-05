@@ -943,7 +943,7 @@ wheels = [
 
 [[package]]
 name = "sc-foundation-services"
-version = "3.2.0"
+version = "3.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "astral" },
@@ -954,13 +954,14 @@ dependencies = [
     { name = "pytz" },
     { name = "pyyaml" },
     { name = "requests" },
+    { name = "twilio" },
     { name = "tzdata" },
     { name = "tzfpy" },
     { name = "validators" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/67/a4/69842f57c44a40db432671ed0428d0866cfbfade2b9e04174ce5996dcb46/sc_foundation_services-3.2.0.tar.gz", hash = "sha256:b97803c16143ce22cd86498a3e8c16b79fa74c2a3f3d35844b02a13fcac28c94", size = 44278, upload-time = "2026-06-22T07:07:14.083Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/4d/fd/6a0247c42de4a351597e608215e2bfea86c481a9d503308f527578e3eaec/sc_foundation_services-3.3.0.tar.gz", hash = "sha256:469481dff71fc633927178b6f6f1b8618406af0ff656948631caa7211cc98db9", size = 47224, upload-time = "2026-08-05T07:42:07.087Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2c/4f/a4a333d3495f7cb344011027f01b161930a8ceee056458c35c42c118d079/sc_foundation_services-3.2.0-py3-none-any.whl", hash = "sha256:7180518b58978baa12a706b682235316313e70013667cdf147a2b52b922725ce", size = 36394, upload-time = "2026-06-22T07:07:12.985Z" },
+    { url = "https://files.pythonhosted.org/packages/48/35/06dfe23d85393ecb2424c32700251b9b3f477719105ac95804a4a2966cf1/sc_foundation_services-3.3.0-py3-none-any.whl", hash = "sha256:ec18c05492e1e3672c6a7c43c9d6959ffb4b8a92f00a417641803c07bda3e60c", size = 38449, upload-time = "2026-08-05T07:42:05.775Z" },
 ]
 
 [[package]]
@@ -1130,7 +1131,7 @@ requires-dist = [
     { name = "pytest-dotenv", marker = "extra == 'all'", specifier = ">=0.5.2" },
     { name = "pytest-mock", marker = "extra == 'all'", specifier = ">=3.15.1" },
     { name = "python-dotenv", specifier = ">=1.2.2" },
-    { name = "sc-foundation-services", specifier = ">=3.2.0" },
+    { name = "sc-foundation-services", specifier = ">=3.3.0" },
     { name = "twilio", specifier = ">=9.10.9" },
     { name = "uvicorn", specifier = ">=0.51.0" },
     { name = "websockets", specifier = ">=16.1.1" },

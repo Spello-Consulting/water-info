@@ -10,13 +10,12 @@ Each (tank, channel) pair is a small state machine:
 
 So a single low-water episode produces exactly two notifications per channel: one
 when it drops below the alert level, and one when it recovers. Email is sent via
-``SCLogger.send_email``; SMS via :func:`sms.send_sms`. The display
+``SCLogger.send_email``; SMS via ``SCLogger.send_sms``. The display
 warning/critical thresholds are independent of these alert/recovery thresholds
 (see design.md).
 """
 from __future__ import annotations
 
-import sms
 from config import AppConfig, CardConfig
 from models import WaterMonitorPayload
 
@@ -91,7 +90,7 @@ class AlertManager:
             except Exception as exc:  # noqa: BLE001 - never let a mail failure break the poller
                 self._log(f"Failed to send email {event} for {card.sensor}: {exc}", "error")
         elif channel == SMS:
-            sms.send_sms(self._cfg.sms_to_numbers, body, logger=self._logger)
+            self._logger.send_sms(body)
 
     def _log(self, message: str, verbosity: str = "summary") -> None:
         if self._logger is not None:

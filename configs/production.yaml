@@ -12,9 +12,6 @@ Files:
 
 Email:
   EnableEmail: True
-  SendEmailsTo: nick@elseyworld.com
-  SMTPServer: smtp.gmail.com
-  SMTPPort: 587
   SubjectPrefix: "[Spello water-info]: "
 
 # Water-monitor REST API to poll.
