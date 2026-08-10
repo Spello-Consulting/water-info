@@ -1,0 +1,33 @@
+name: Deploy water-info
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        type: choice
+        options:
+          - pi-spello
+
+jobs:
+  deploy-pi-spello:
+    name: Deploy → pi-spello
+    if: ${{ inputs.environment == 'pi-spello' || inputs.environment == 'both' }}
+    runs-on: [self-hosted, pi-spello]
+    environment: pi-spello
+    steps:
+      - name: Stop the service
+        run: |
+          sudo --chdir=/home/pi/scripts/water-info /home/pi/scripts/pyutil/servicectrl.sh stop
+
+      - name: Pull latest from GitHub
+        run: sudo git -C /home/pi/scripts/water-info pull
+
+      - name: Deploy and start the service
+        run: sudo --chdir=/home/pi/scripts/water-info /home/pi/scripts/pyutil/servicectrl.sh deploy pi-spello
+
+      - name: Verify service is running
+        run: |
+          sleep 6
+          sudo --chdir=/home/pi/scripts/water-info /home/pi/scripts/pyutil/servicectrl.sh is-active
