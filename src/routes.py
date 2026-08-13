@@ -106,6 +106,7 @@ async def system(request: Request):
             "device": device,
             "api_ok": app.state.app_state.api_ok,
             "last_valid_response": last_valid,
+            "simulation_mode": app.state.config.simulation_mode,
         },
     )
 
@@ -129,6 +130,29 @@ async def diagnostics(request: Request, sensor: str):
             "display_name": card.display_name,
             "api_ok": app.state.app_state.api_ok,
             "last_valid_response": last_valid,
+        },
+    )
+
+
+@router.get("/config", response_class=HTMLResponse)
+async def config(request: Request):
+    """Show the contents of the active YAML config file.
+
+    Secrets live in ``.env`` (never in the YAML), so dumping the config is safe.
+    """
+    app = request.app
+    cfg = app.state.config
+    path = cfg.config_path
+    try:
+        config_text = await asyncio.to_thread(path.read_text, encoding="utf-8")
+    except OSError as exc:
+        config_text = f"Could not read config file: {exc}"
+    return _templates(request).TemplateResponse(
+        request,
+        "config.html",
+        {
+            "config_text": config_text,
+            "config_path": str(path),
         },
     )
 

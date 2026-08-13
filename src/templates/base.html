@@ -6,13 +6,23 @@
   <title>{% block title %}Water Information Display{% endblock %}</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%A7%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="/static/style.css">
+  <script>
+    // Apply the saved display mode before first paint to avoid a flash.
+    (function () {
+      var t = localStorage.getItem("theme") || "system";
+      if (t !== "light" && t !== "dark") t = "system";
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
 </head>
 <body>
   <header>
     <h1><a href="/">Water Information Display</a></h1>
     <div class="header-right">
       <span id="clock"></span>
+      <button id="theme-toggle" type="button" aria-label="Display mode"></button>
       <a class="header-link" href="/system">System</a>
+      <a class="header-link" href="/config">Config</a>
     </div>
   </header>
 
@@ -33,6 +43,31 @@
     }
     updateClock();
     setInterval(updateClock, 1000);
+  </script>
+  <script>
+    // Day / Night / System display-mode toggle, persisted in localStorage.
+    (function () {
+      var order = ["system", "light", "dark"];
+      var icons = { system: "🖥️", light: "☀️", dark: "🌙" };
+      var btn = document.getElementById("theme-toggle");
+      if (!btn) return;
+      function current() {
+        var t = localStorage.getItem("theme");
+        return order.indexOf(t) === -1 ? "system" : t;
+      }
+      function render() {
+        var t = current();
+        btn.textContent = icons[t];
+        btn.title = "Display mode: " + t;
+      }
+      render();
+      btn.addEventListener("click", function () {
+        var next = order[(order.indexOf(current()) + 1) % order.length];
+        localStorage.setItem("theme", next);
+        document.documentElement.setAttribute("data-theme", next);
+        render();
+      });
+    })();
   </script>
 </body>
 </html>

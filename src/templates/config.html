@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Config — Water Information Display{% endblock %}
+{% block content %}
+<div class="system-page">
+  <div class="card-header-bar">
+    <h2>Config</h2>
+    <a class="btn" href="/">← Home</a>
+  </div>
+
+  <p class="config-path">{{ config_path }}</p>
+  <pre class="config-dump">{{ config_text }}</pre>
+</div>
+{% endblock %}

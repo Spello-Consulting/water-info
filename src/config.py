@@ -125,6 +125,11 @@ class AppConfig:
     def config_mgr(self) -> SCConfigManager:
         return self._cfg
 
+    @property
+    def config_path(self):
+        """Filesystem path of the active YAML config file."""
+        return self._cfg.config_path
+
     # --- Water-monitor API -------------------------------------------------
     @property
     def api_url(self) -> str:

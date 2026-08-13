@@ -18,6 +18,10 @@
       <span class="system-key">Last valid response</span>
       <span class="system-val">{{ last_valid_response or '—' }}</span>
     </div>
+    <div class="system-row">
+      <span class="system-key">Simulation mode</span>
+      <span class="system-val">{{ 'On' if simulation_mode else 'Off' }}</span>
+    </div>
 
     {% if device %}
       {% for key, value in device.items() %}
