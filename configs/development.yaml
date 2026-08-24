@@ -22,7 +22,7 @@ WaterMonitor:
   # Simulation mode: when True, read payloads from SimulationFile (a JSON file in
   # the water-monitor payload format) instead of polling URL. Edit the file to
   # test card colours and low-water alerts; changes are picked up each poll.
-  SimulationMode: True
+  SimulationMode: False
   SimulationFile: "data/payload_sample.json"
 
 # Local SQLite history store.

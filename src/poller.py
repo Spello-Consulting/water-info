@@ -2,7 +2,8 @@
 
 Runs as a single asyncio task started in the FastAPI lifespan. On a fetch
 failure the last good values are retained and every card is marked Error. A
-retention prune runs once per day, and config changes are picked up each cycle.
+retention prune runs once per day, housekeeping (log-file trim) runs once per
+hour, and config changes are picked up each cycle.
 """
 from __future__ import annotations
 
@@ -22,6 +23,15 @@ from websocket import WebSocketManager
 # Poll cadence used while the diagnostics page is open, overriding the configured
 # WaterMonitor.PollIntervalSeconds so the page is near-real-time.
 DIAGNOSTICS_POLL_SECONDS = 2
+
+# How often the housekeeping task (log-file trim) runs.
+HOUSEKEEPING_INTERVAL = dt.timedelta(hours=1)
+
+
+def housekeeping(logger) -> None:
+    """Periodic maintenance: trim the log file down to its configured max size."""
+    logger.trim_logfile()
+    logger.log_message("Housekeeping: log-file trim complete.", "summary")
 
 
 def build_diagnostics(app_config: AppConfig, payload, sensor: str | None = None) -> list[dict]:
@@ -79,6 +89,7 @@ async def poller_loop(
 ) -> None:
     last_prune_date: dt.date | None = None
     last_config_check = DateHelper.now()
+    last_housekeeping = None
 
     while True:
         # --- Fetch + persist ------------------------------------------------
@@ -111,6 +122,14 @@ async def poller_loop(
             except Exception as exc:  # noqa: BLE001
                 logger.log_message(f"Retention prune failed: {exc}", "error")
             last_prune_date = today
+
+        # --- Hourly housekeeping (log-file trim) ----------------------------
+        if last_housekeeping is None or now - last_housekeeping >= HOUSEKEEPING_INTERVAL:
+            try:
+                await asyncio.to_thread(housekeeping, logger)
+            except Exception as exc:  # noqa: BLE001
+                logger.log_message(f"Housekeeping failed: {exc}", "error")
+            last_housekeeping = now
 
         # --- Config hot-reload ---------------------------------------------
         new_check = app_config.config_mgr.check_for_config_changes(last_config_check)
