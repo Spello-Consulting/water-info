@@ -90,3 +90,8 @@ Cards:
   - Sensor: "Internal Tank Water Temperature"
     Type: temperature
     DisplayName: "Internal Water Temp"
+
+HeartbeatMonitor:
+  Enable: False
+  WebsiteURL: 
+  HeartbeatTimeout: 5    

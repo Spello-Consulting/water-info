@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import asyncio
 import datetime as dt
+from venv import logger
 
 from sc_foundation.sc_date_helper import DateHelper
 
@@ -130,6 +131,11 @@ async def poller_loop(
             except Exception as exc:  # noqa: BLE001
                 logger.log_message(f"Housekeeping failed: {exc}", "error")
             last_housekeeping = now
+
+
+        # --- Heartbeat monitor --------------------------------------------
+        logger.ping_heartbeat()  # logs a heartbeat message if the configured interval has elapsed
+
 
         # --- Config hot-reload ---------------------------------------------
         new_check = app_config.config_mgr.check_for_config_changes(last_config_check)

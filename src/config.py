@@ -226,7 +226,8 @@ def build_config_manager(config_file: str) -> SCConfigManager:
 
 def build_logger(config_mgr: SCConfigManager) -> SCLogger:
     """Construct an :class:`SCLogger` from the ``Files:``/``Email:`` sections."""
-    logger = SCLogger(config_mgr.get_logger_settings())
+    heartbeat_config = config_mgr.get("HeartbeatMonitor")
+    logger = SCLogger(config_mgr.get_logger_settings(), heartbeat_config=heartbeat_config)
     logger.register_email_settings(config_mgr.get_email_settings())
     config_mgr.register_logger(logger.log_message)
     return logger

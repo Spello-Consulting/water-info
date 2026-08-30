@@ -91,3 +91,7 @@ Cards:
     Type: temperature
     DisplayName: "Internal Water Temp"
 
+HeartbeatMonitor:
+  Enable: True
+  WebsiteURL: https://uptime.betterstack.com/api/v1/heartbeat/zcsNtnEQHRDNWJENvcZc94fx
+  HeartbeatTimeout: 5
