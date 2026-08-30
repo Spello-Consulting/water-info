@@ -32,7 +32,7 @@ Database:
 
 # Historic chart pages.
 Charting:
-  Days: 30
+  Days: 7
 
 # Web server bind address (LAN, no auth).
 Server:
