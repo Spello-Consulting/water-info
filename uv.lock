@@ -943,7 +943,7 @@ wheels = [
 
 [[package]]
 name = "sc-foundation-services"
-version = "3.3.0"
+version = "3.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "astral" },
@@ -959,9 +959,9 @@ dependencies = [
     { name = "tzfpy" },
     { name = "validators" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/4d/fd/6a0247c42de4a351597e608215e2bfea86c481a9d503308f527578e3eaec/sc_foundation_services-3.3.0.tar.gz", hash = "sha256:469481dff71fc633927178b6f6f1b8618406af0ff656948631caa7211cc98db9", size = 47224, upload-time = "2026-08-05T07:42:07.087Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/7e/d2/81d31c76198c83309724395c6f4cf991658848ab3c1712416cbebfce7aad/sc_foundation_services-3.3.1.tar.gz", hash = "sha256:bc50d0bd9680a9cbb1a27246523a5b2313ad7c68c3791efd8a7d09b94b11f1cb", size = 47292, upload-time = "2026-08-30T15:15:59.318Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/48/35/06dfe23d85393ecb2424c32700251b9b3f477719105ac95804a4a2966cf1/sc_foundation_services-3.3.0-py3-none-any.whl", hash = "sha256:ec18c05492e1e3672c6a7c43c9d6959ffb4b8a92f00a417641803c07bda3e60c", size = 38449, upload-time = "2026-08-05T07:42:05.775Z" },
+    { url = "https://files.pythonhosted.org/packages/c4/61/b3eb140496713fcce4da9d5467443ac55d9ff2f35a149e24bb7ac918f117/sc_foundation_services-3.3.1-py3-none-any.whl", hash = "sha256:89768e0a8f3d2e1509c28271ca2467cfe92ff28769d0260f9c0613524cf23ba8", size = 38471, upload-time = "2026-08-30T15:15:57.911Z" },
 ]
 
 [[package]]
@@ -1100,7 +1100,7 @@ wheels = [
 
 [[package]]
 name = "water-info"
-version = "1.2.3"
+version = "1.2.4"
 source = { virtual = "." }
 dependencies = [
     { name = "fastapi" },
@@ -1131,7 +1131,7 @@ requires-dist = [
     { name = "pytest-dotenv", marker = "extra == 'all'", specifier = ">=0.5.2" },
     { name = "pytest-mock", marker = "extra == 'all'", specifier = ">=3.15.1" },
     { name = "python-dotenv", specifier = ">=1.2.2" },
-    { name = "sc-foundation-services", specifier = ">=3.3.0" },
+    { name = "sc-foundation-services", specifier = ">=3.3.1" },
     { name = "twilio", specifier = ">=9.10.9" },
     { name = "uvicorn", specifier = ">=0.51.0" },
     { name = "websockets", specifier = ">=16.1.1" },
