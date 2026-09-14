@@ -11,7 +11,7 @@ Files:
   ConsoleVerbosity: debug
 
 Email:
-  EnableEmail: True
+  EnableEmail: False
   SubjectPrefix: "[Spello water-info]: "
 
 # Water-monitor REST API to poll.
@@ -42,7 +42,7 @@ Server:
 # SMS alerts via Twilio. Credentials (SID/token/from-number) come from .env.
 # If those env vars are absent at runtime, SMS is skipped with a warning.
 SMS:
-  EnableSMS: True
+  EnableSMS: False
   SendSMSTo:
 
 # Card layout. Order here is the order shown on the home page. Sensors present
