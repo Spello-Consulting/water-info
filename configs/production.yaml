@@ -60,9 +60,9 @@ Cards:
     DisplayName: "External Water %"
     WarningPercent: 70
     CriticalPercent: 30
-    EmailAlertPercent: 60
+    EmailAlertPercent: 50
     EmailRecoveryPercent: 65
-    SMSAlertPercent: 50
+    SMSAlertPercent: 20
     SMSRecoveryPercent: 55
 
   - Sensor: "Internal Tank Water Level"
@@ -70,10 +70,10 @@ Cards:
     DisplayName: "Internal Water %"
     WarningPercent: 70
     CriticalPercent: 30
-    EmailAlertPercent: 50
-    EmailRecoveryPercent: 55
+    EmailAlertPercent: 70
+    EmailRecoveryPercent: 80
     SMSAlertPercent: 50
-    SMSRecoveryPercent: 55
+    SMSRecoveryPercent: 60
 
   - Sensor: "External Air Temperature"
     Type: temperature
