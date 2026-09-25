@@ -28,6 +28,9 @@ all = [
     "pytest-mock>=3.15.1",
 ]
 
+[tool.pyutil]
+managed_scripts = ["launch.sh"]
+
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
