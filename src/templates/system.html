@@ -4,10 +4,19 @@
 <div class="system-page">
   <div class="card-header-bar">
     <h2>System</h2>
-    <a class="btn" href="/">← Home</a>
+    <div class="btn-row">
+      <a class="btn" href="/log">Logs</a>
+      <a class="btn" href="/">← Home</a>
+    </div>
   </div>
 
   <div class="system-card">
+    {% for label, value in deployment_rows.items() %}
+    <div class="system-row">
+      <span class="system-key">{{ label }}</span>
+      <span class="system-val">{{ value }}</span>
+    </div>
+    {% endfor %}
     <div class="system-row">
       <span class="system-key">API status</span>
       <span class="system-val {{ 'status-ok' if api_ok else 'status-error' }}">

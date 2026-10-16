@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Log — Water Information Display{% endblock %}
+{% block content %}
+<div class="system-page log-page">
+  <div class="card-header-bar">
+    <h2>Log file</h2>
+    <a class="btn" href="/system">← System</a>
+  </div>
+
+  {% if log_path %}
+  <p class="config-path">{{ log_path }}</p>
+  <div class="log-toolbar">
+    <label class="log-live"><input type="checkbox" id="log-live"> Live updates</label>
+    <span id="log-status" class="log-status"></span>
+    <a class="btn" href="/log/download" download>Download</a>
+  </div>
+  <pre id="log-content" class="config-dump log-dump"
+       data-generation="{{ log_chunk.generation }}"
+       data-offset="{{ log_chunk.offset }}">{{ log_chunk.text }}</pre>
+  {% else %}
+  <p class="config-path">File logging is not enabled. Set <code>Files.LogfileName</code> in the config file.</p>
+  {% endif %}
+</div>
+{% endblock %}
+{% block scripts %}
+{% if log_path %}<script src="/static/log.js"></script>{% endif %}
+{% endblock %}

@@ -152,6 +152,14 @@ Then open `http://<host>:8000/` on a phone or desktop browser. The home grid
 shows 2 cards across on iPhone portrait and 3 across on wider screens; tap a card
 for its 30-day chart, and use the **System** button for device details.
 
+The **System** page also shows the application version (from `pyproject.toml`),
+git branch, status (ahead/behind upstream, based on the last fetch) and count of
+uncommitted changes; the git rows are omitted when the app isn't running from a
+git checkout. Its **Logs** button opens `/log`, which shows the full application
+log file (`Files: LogfileName`). Tick **Live updates** to follow new lines as they
+are written (like `tail -f`, polled every second; the choice is remembered per
+browser), and use **Download** to save a copy.
+
 > **Storage:** the app runs a **single uvicorn worker** by design — the poller
 > task is the sole writer to the SQLite database (WAL mode, one shared
 > connection). SQLite ships with Python, so there are no native wheels to build
