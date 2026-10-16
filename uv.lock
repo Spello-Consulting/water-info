@@ -943,7 +943,7 @@ wheels = [
 
 [[package]]
 name = "sc-foundation-services"
-version = "3.3.1"
+version = "3.5.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "astral" },
@@ -959,9 +959,9 @@ dependencies = [
     { name = "tzfpy" },
     { name = "validators" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/7e/d2/81d31c76198c83309724395c6f4cf991658848ab3c1712416cbebfce7aad/sc_foundation_services-3.3.1.tar.gz", hash = "sha256:bc50d0bd9680a9cbb1a27246523a5b2313ad7c68c3791efd8a7d09b94b11f1cb", size = 47292, upload-time = "2026-08-30T15:15:59.318Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/4b/24/2caf5e274b0e7fe08e589bfd9ea2ae3b7afcba1110e06ccf224c3c3c3255/sc_foundation_services-3.5.0.tar.gz", hash = "sha256:bfd14a9451af7934d5709d671aefbf939414658b42fdfe8bb59bc356bb3e37b8", size = 55978, upload-time = "2026-10-14T22:34:43.618Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c4/61/b3eb140496713fcce4da9d5467443ac55d9ff2f35a149e24bb7ac918f117/sc_foundation_services-3.3.1-py3-none-any.whl", hash = "sha256:89768e0a8f3d2e1509c28271ca2467cfe92ff28769d0260f9c0613524cf23ba8", size = 38471, upload-time = "2026-08-30T15:15:57.911Z" },
+    { url = "https://files.pythonhosted.org/packages/fa/08/6d14a72ff6f93d9dd3ca1617ca651f6bb03a8434c79d22076eb8f8531a28/sc_foundation_services-3.5.0-py3-none-any.whl", hash = "sha256:afeccf72bf0e7f2580f98bf28c4f2eac254c6469f6f7a60ca26f0c5ab9e41413", size = 42062, upload-time = "2026-10-14T22:34:42.272Z" },
 ]
 
 [[package]]
@@ -1131,7 +1131,7 @@ requires-dist = [
     { name = "pytest-dotenv", marker = "extra == 'all'", specifier = ">=0.5.2" },
     { name = "pytest-mock", marker = "extra == 'all'", specifier = ">=3.15.1" },
     { name = "python-dotenv", specifier = ">=1.2.2" },
-    { name = "sc-foundation-services", specifier = ">=3.3.1" },
+    { name = "sc-foundation-services", specifier = ">=3.5.0" },
     { name = "twilio", specifier = ">=9.10.9" },
     { name = "uvicorn", specifier = ">=0.51.0" },
     { name = "websockets", specifier = ">=16.1.1" },

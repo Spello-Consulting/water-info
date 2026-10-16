@@ -3,22 +3,62 @@ from __future__ import annotations
 
 import asyncio
 import datetime as dt
+from dataclasses import asdict
+from pathlib import Path
+from typing import TYPE_CHECKING, Any
 
 from fastapi import APIRouter, Request, WebSocket, WebSocketDisconnect
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse, Response
 from starlette.status import HTTP_404_NOT_FOUND
 
+from sc_foundation import SCCommon
 from sc_foundation.sc_date_helper import DateHelper
 
 from cards import build_cards
 from chart import render_chart_svg
 from poller import build_diagnostics
 
+if TYPE_CHECKING:
+    from sc_foundation import SCLogger
+
 router = APIRouter()
 
 
 def _templates(request: Request):
     return request.app.state.templates
+
+
+def _logfile_path(logger: SCLogger) -> str | None:
+    """Return the log file path, or None when file logging is disabled.
+
+    Returns:
+        The log file path, or None.
+    """
+    if not logger.file_logging_enabled:
+        return None
+    path: str | None = logger.get_logfile_path()
+    return path
+
+
+def _deployment_rows(info: dict[str, Any]) -> dict[str, str]:
+    """Build the version and git rows for the system page.
+
+    The git remote is deliberately omitted: an HTTPS remote URL can embed a token.
+
+    Args:
+        info: The dictionary returned by ``SCCommon.get_deployment_info()``.
+
+    Returns:
+        Display rows keyed by label. Git rows are omitted when the app is not
+        running from a git checkout.
+    """
+    rows = {"Application version": str(info.get("version") or "—")}
+    if info.get("git_changes") is None:
+        return rows
+    rows["Git branch"] = str(info.get("git_branch") or "(detached HEAD)")
+    rows["Git status"] = str(info.get("git_status") or "Unknown")
+    rows["Uncommitted changes"] = str(info["git_changes"])
+    return rows
 
 
 def _current_reading(card, payload, unit: str) -> str | None:
@@ -98,11 +138,14 @@ async def chart(request: Request, sensor: str):
 async def system(request: Request):
     app = request.app
     device = await asyncio.to_thread(app.state.db.latest_device)
+    # Runs several git subprocesses; keep them off the event loop.
+    deployment_info = await asyncio.to_thread(SCCommon.get_deployment_info)
     last_valid = DateHelper.format(app.state.app_state.last_valid_response) if app.state.app_state.last_valid_response else None
     return _templates(request).TemplateResponse(
         request,
         "system.html",
         {
+            "deployment_rows": _deployment_rows(deployment_info),
             "device": device,
             "api_ok": app.state.app_state.api_ok,
             "last_valid_response": last_valid,
@@ -154,6 +197,64 @@ async def config(request: Request):
             "config_text": config_text,
             "config_path": str(path),
         },
+    )
+
+
+@router.get("/log", response_class=HTMLResponse)
+async def show_log(request: Request) -> Response:
+    """Render the log viewer page with the current log file contents.
+
+    The page polls ``/log/content`` for new lines while its *Live updates*
+    checkbox is ticked.
+
+    Returns:
+        The rendered log page.
+    """
+    logger = request.app.state.logger
+    chunk = await asyncio.to_thread(logger.read_logfile_since)
+    response: Response = _templates(request).TemplateResponse(
+        request,
+        "log.html",
+        {"log_path": _logfile_path(logger) or "", "log_chunk": chunk},
+    )
+    return response
+
+
+@router.get("/log/content")
+async def log_content(request: Request, generation: int | None = None, offset: int = 0) -> Response:
+    """Return log file content written since a previous read.
+
+    Pass back the ``generation`` and ``offset`` from the previous response. When
+    ``reset`` is true the client should replace its content with ``text``
+    rather than append it (the log file was trimmed or replaced).
+
+    Returns:
+        A JSON ``LogChunk`` (text, generation, offset, reset).
+    """
+    chunk = await asyncio.to_thread(request.app.state.logger.read_logfile_since, generation, offset)
+    return JSONResponse(asdict(chunk), headers={"Cache-Control": "no-store"})
+
+
+@router.get("/log/download")
+async def log_download(request: Request) -> Response:
+    """Download a copy of the log file (404 when file logging is disabled).
+
+    The content is a snapshot read under the logger's lock, so it is never
+    caught mid-trim.
+
+    Returns:
+        The log file as an attachment, or a 404 response.
+    """
+    logger = request.app.state.logger
+    log_path = _logfile_path(logger)
+    if not log_path:
+        return HTMLResponse("File logging is not enabled.", status_code=HTTP_404_NOT_FOUND)
+
+    text = await asyncio.to_thread(logger.read_logfile)
+    return Response(
+        content=text,
+        media_type="text/plain; charset=utf-8",
+        headers={"Content-Disposition": f'attachment; filename="{Path(log_path).name}"'},
     )
 
 
