@@ -48,6 +48,37 @@ def test_build_diagnostics_maps_names_and_fields(sample_payload):
     assert unconfigured["type"] == "unknown"
 
 
+def test_build_diagnostics_carries_pressure_sensor_fields(sample_payload):
+    """Pressure-sensor diagnostic fields reach the diagnostics page."""
+    sample_payload["tank_sensors"].append(
+        {
+            "name": "Internal Tank Water Level (Pressure)",
+            "sensor_type": "pressure",
+            "connected": True,
+            "status": "ok",
+            "level_mm": 81,
+            "percent_full": 10,
+            "voltage_mv": 440.4,
+            "current_ma": 4.404,
+            "raw_adc": 5889,
+            "fault": None,
+            "gpio_pin": 33,
+            "gpio_rx_pin": None,
+            "gpio_tx_pin": None,
+        }
+    )
+    payload = WaterMonitorPayload.model_validate(sample_payload)
+    rows = {row["sensor"]: row for row in build_diagnostics(FakeConfig(), payload)}
+
+    fields = rows["Internal Tank Water Level (Pressure)"]["fields"]
+    assert fields["sensor_type"] == "pressure"
+    assert fields["voltage_mv"] == 440.4
+    assert fields["current_ma"] == 4.404
+    assert fields["raw_adc"] == 5889
+    assert fields["gpio_pin"] == 33
+    assert "fault" in fields
+
+
 def test_build_diagnostics_filters_to_one_sensor(sample_payload):
     payload = WaterMonitorPayload.model_validate(sample_payload)
     rows = build_diagnostics(FakeConfig(), payload, sensor="External Tank Water Level")

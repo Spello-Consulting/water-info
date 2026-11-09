@@ -44,13 +44,21 @@ class DeviceInfo(_Lenient):
 
 class TankSensor(_Lenient):
     name: str
+    sensor_type: str | None = None  # e.g. "ultrasonic" or "pressure"
     status: str | None = None
     connected: bool | None = None
     percent_full: float | None = None
     level_mm: float | None = None
     volume_litres: float | None = None
-    distance_mm: float | None = None
+    distance_mm: float | None = None  # ultrasonic sensors
+    voltage_mv: float | None = None  # pressure sensors, for diagnostics
+    current_ma: float | None = None  # pressure sensors, for diagnostics
+    raw_adc: int | None = None  # pressure sensors, for diagnostics
     raw_hex: str | None = None  # last raw sensor frame (hex), for diagnostics
+    fault: str | None = None  # fault description, if any, for diagnostics
+    gpio_pin: int | None = None  # for diagnostics
+    gpio_rx_pin: int | None = None  # for diagnostics
+    gpio_tx_pin: int | None = None  # for diagnostics
     age_seconds: int | None = None
     consecutive_failures: int | None = None
 

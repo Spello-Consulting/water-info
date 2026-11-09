@@ -11,7 +11,7 @@
             "program": "src/main.py",
             "console": "integratedTerminal",
             "envFile": "${workspaceFolder}/.env",
-            "args": ["--config", "configs/development.yaml"]
+            "args": ["--config", "configs/dev_sydney.yaml"]
         }
     ]
 }

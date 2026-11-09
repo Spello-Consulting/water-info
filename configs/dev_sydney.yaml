@@ -16,13 +16,13 @@ Email:
 
 # Water-monitor REST API to poll.
 WaterMonitor:
-  URL: "http://192.168.86.144/"
+  URL: "http://192.168.87.6/"
   PollIntervalSeconds: 5
   RequestTimeoutSeconds: 30
   # Simulation mode: when True, read payloads from SimulationFile (a JSON file in
   # the water-monitor payload format) instead of polling URL. Edit the file to
   # test card colours and low-water alerts; changes are picked up each poll.
-  SimulationMode: True
+  SimulationMode: False
   SimulationFile: "data/payload_sample.json"
 
 # Local SQLite history store.
@@ -83,15 +83,12 @@ Cards:
     Type: temperature
     DisplayName: "Internal Air Temp"
 
-  - Sensor: "External Tank Water Temperature"
+  - Sensor: "Extra 1"
     Type: temperature
-    DisplayName: "External Water Temp"
+    DisplayName: "Extra 1"
 
-  - Sensor: "Internal Tank Water Temperature"
-    Type: temperature
-    DisplayName: "Internal Water Temp"
 
 HeartbeatMonitor:
   Enable: False
-  WebsiteURL: https://uptime.betterstack.com/api/v1/heartbeat/zcsNtnEQHRDNWJENvcZc94fx
+  WebsiteURL: 
   HeartbeatTimeout: 5
