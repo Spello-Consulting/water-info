@@ -10,6 +10,7 @@ on:
         options:
           - pi-spello
           - spelloapp
+          - sydneyapp
           - all
 
 jobs:
