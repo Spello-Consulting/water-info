@@ -15,6 +15,12 @@ import uvicorn
 from app import create_app
 from config import AppConfig, build_config_manager, build_logger
 
+# Maximum time uvicorn waits for in-flight connections to close during a graceful
+# shutdown before cancelling them. Without this bound, an open /ws dashboard WebSocket
+# keeps uvicorn waiting indefinitely on a single SIGTERM (the deploy controller sends
+# SIGTERM once, then SIGKILLs ~90s later), so the process appears to hang on stop.
+WEB_SERVER_GRACEFUL_SHUTDOWN_TIMEOUT = 5
+
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Water Information Display web application")
@@ -42,7 +48,14 @@ def main() -> None:
 
     logger.log_message(f"water-info starting on {app_config.host}:{app_config.port}", "summary")
     # Single worker only — keeps the poller the sole SQLite writer.
-    uvicorn.run(app, host=app_config.host, port=app_config.port, workers=1, log_level="info")
+    uvicorn.run(
+        app,
+        host=app_config.host,
+        port=app_config.port,
+        workers=1,
+        log_level="info",
+        timeout_graceful_shutdown=WEB_SERVER_GRACEFUL_SHUTDOWN_TIMEOUT,
+    )
 
 
 if __name__ == "__main__":
